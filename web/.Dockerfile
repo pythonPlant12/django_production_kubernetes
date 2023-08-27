@@ -11,9 +11,10 @@ RUN python3 -m venv /opt/venv
 
 # Install all needed dependencies, as we will run it on Linux we will need to 
 # specify where the pip is allocated, it is recommended to also update pip
-RUN pip install pip --upgrade && \
-RUN /opt/venv/bin/pip install -r requirements.txt && \
-RUN chmod +x entrypoint.sh
+RUN /opt/venv/bin/pip install pip --upgrade && \
+    /opt/venv/bin/pip install -r requirements.txt && \
+    chmod +x entrypoint.sh
+
 
 # Now we need to activate a venv, normally you'll do it with python manage.py runserver
 # but is the same as doing: 
