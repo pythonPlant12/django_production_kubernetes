@@ -1,47 +1,50 @@
-version: "3.10.12"
+version: "3.9"
 services:
   # name of application
-  web:
+  # web:
     # This configuration means that web configuration will not run
     # until postgres_db is configured
-    depends_on:
-      - postgres_db
-    # Refering to what container do I want to build here?
-    build:
+  #   depends_on:
+  #     - postgres_db
+      # Refering to what container do I want to build here?
+  #   build:
       # This two build commands is like:
       # docker build -t django-k8s:v1 -f Dockerfile ./web 
       # but instead, we will use a Dockerfile to create a configuration for build
       # Where i want to build a container
-      context: ./web
+  #     context: ./web
       # What instructions 
-      dockerfile: .Dockerfile
+  #     dockerfile: .Dockerfile
     # Declare an image name we want to build (recommendation: name as the name of the project)
-    image: django-k8s:v1
-    environment:
-      - PORT=8020
-    env_file:
-      - web/.env
+  #   image: django-k8s:v1
+  #   environment:
+  #     - PORT=8020
+  #   env_file:
+  #     - web/.env
     # By default containers are not accessible to outside world if we run it locally
     # unless you define a port mapping
-    ports:
-      - "8001:8020"
+  #   ports:
+  #     - "8001:8020"
     # We make thise files executable and then we execute them
-    command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
-    # volumes:
-    #    - staticfiles:/app/staticfiles/
+  #   command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
+  #   volumes:
+  #      - staticfiles:/app/staticfiles/
   # We define configurations for our database, it should be called the same as we call
   # it in .env file POSTGRES_HOST=postgres_db
   postgres_db:
     image: postgres
-    command: -p 5432
+    # 'restart' means that everytime my machine will restart it will start to run automatically.
+    restart: always
+    command: -p 5434
     # Here we define our environmental variables as we did it in .env file
     # declaring environment: -POSTGRES_DB=dockerdc, etc.
     # or we can also declare the path to the file with them as we do here
     env_file:
       - web/.env
-    # This exposing port should be the same as in .env file POSTGRES_PORT=5432
-    expose: 
-      - 5432
+    # We need expose so our services can talk to each other
+    expose:
+      - 5434
+    # We define ports for our service
     ports:
       - "5434:5434"
     # This allows us to have the database persistant, so if our app crashes, 
@@ -50,19 +53,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   redis_db:
-      image: redis
-      restart: always
-      expose:
-        - 6380
-      ports:
-        - "6380:6380"
-      volumes:
-          - redis_data:/data
-      entrypoint: redis-server --appendonly yes --port 6380
+    image: redis
+    restart: always
+    expose:
+      - 6388
+    ports:
+      - "6388:6388"
+    volumes:
+        - redis_data:/data
+    entrypoint: redis-server --appendonly yes --port 6388
 
 
 volumes:
-  staticfiles:
-      external: true
+  # staticfiles:
+  #     external: true
   postgres_data:
   redis_data: 
