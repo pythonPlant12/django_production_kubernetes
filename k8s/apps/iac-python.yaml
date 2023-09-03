@@ -1,29 +1,4 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: iac-python-deployment
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: iac-python-deployment
-  template:
-    metadata:
-      labels:
-        app: iac-python-deployment
-    spec:
-      containers:
-        - name: iac-python
-          # this image will come directly from a DockerHub
-          # it's public image from CodingEnterpreneurs
-          image: codingforentrepreneurs/iac-python:latest
-          # Ports are similar that we define in entrypoint.sh
-          # So here we can also use Environment Variable like there
-          env:
-            - name: PORT
-              value: "8181"
-          ports:
-            - containerPort: 8181
+ 
 
 --- 
 
