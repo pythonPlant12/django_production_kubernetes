@@ -17,7 +17,34 @@ spec:
       containers:
       - name: django-k8s-web
         image: registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web:latest
+        # imagePullPolicy: Always
+        # this envFrom, secretRef and name are coming from:
+        # - "k get secrets django-k8s-web-prod-env -o json" as name
+        envFrom:
+          - secretRef: 
+              name: django-k8s-web-prod-env
+        env:
+          - name: PORT
+            value: "8000"
         ports:
-        - containerPort: 80
+        - containerPort: 8000
+      # this imagePullSecrets is coming from the command:
+      # "k get serviceaccounts default -o json" as name
       imagePullSecrets:
         - name: cfe-k8s-nikita
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-k8s-web-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8000
+  selector:
+    app: django-k8s-web-deployment

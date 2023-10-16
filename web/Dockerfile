@@ -1,4 +1,4 @@
-FROM python:3.10.12-slim
+FROM python:3.9.7-slim
 # Copies all the files from the application to the Docker container,
 # except .dockerignore
 COPY . /app
