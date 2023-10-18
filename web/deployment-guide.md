@@ -8,14 +8,14 @@ python manage.py test
 
 ```
 docker build -f Dockerfile \
-  -t registry.digitalocean.com/cfe-k8s/django-k8s-web:latest 
-  -t registry.digitalocean.com/cfe-k8s/django-k8s-web:v1 
+  -t registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web:latest 
+  -t registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web:v1 
 ```
 
 3. Push Container with 2 tags: latest and random
 
 ```
-docker push registry.digitalocean.com/cfe-k8s/django-k8s-web --all-tags
+docker push registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web --all-tags
 ```
 
 4. Update secrets (if needed)
@@ -25,6 +25,11 @@ kubectl delete secret django-k8s-web-prod-env
 kubectl create secret generic django-k8s-web-prod-env --from-env-file=web/.env.prod
 
 ```
+4.1. Configure your `kubectl` with `kubeconfig.yaml`
+```
+export KUBECONFIG=.kube/kubeconfig.yaml
+```
+
 
 5. Update Deployment `k8s/apps/django-k8s-web.yaml`:
 
@@ -35,7 +40,7 @@ Add in a rollout strategy:
 
 CHange 
 ```
-image: registry.digitalocean.com/cfe-k8s/django-k8s-web:latest
+image: registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web:latest
 ```
 to
 
