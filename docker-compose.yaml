@@ -1,34 +1,34 @@
 version: "3.9"
 services:
   # name of application
-  # web:
+  web:
     # This configuration means that web configuration will not run
     # until postgres_db is configured
-  #   depends_on:
-  #     - postgres_db
+    depends_on:
+      - postgres_db
       # Refering to what container do I want to build here?
-  #   build:
+    build:
       # This two build commands is like:
       # docker build -t django-k8s:v1 -f Dockerfile ./web 
       # but instead, we will use a Dockerfile to create a configuration for build
       # Where i want to build a container
-  #     context: ./web
+      context: ./web
       # What instructions 
-  #     dockerfile: .Dockerfile
+      dockerfile: .Dockerfile
     # Declare an image name we want to build (recommendation: name as the name of the project)
-  #   image: django-k8s:v1
-  #   environment:
-  #     - PORT=8020
-  #   env_file:
-  #     - web/.env
+    image: django-k8s:v1
+    environment:
+      - PORT=8020
+    env_file:
+      - web/.env
     # By default containers are not accessible to outside world if we run it locally
     # unless you define a port mapping
-  #   ports:
-  #     - "8001:8020"
+    ports:
+      - "8001:8020"
     # We make thise files executable and then we execute them
-  #   command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
-  #   volumes:
-  #      - staticfiles:/app/staticfiles/
+    command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
+    # volumes:
+    #    - staticfiles:/app/staticfiles/
   # We define configurations for our database, it should be called the same as we call
   # it in .env file POSTGRES_HOST=postgres_db
   postgres_db:
