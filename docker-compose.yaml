@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.9.7"
 services:
   # name of application
   web:
@@ -14,9 +14,9 @@ services:
       # Where i want to build a container
       context: ./web
       # What instructions 
-      dockerfile: .Dockerfile
+      dockerfile: Dockerfile
     # Declare an image name we want to build (recommendation: name as the name of the project)
-    image: django-k8s:v1
+    image: prueba_1
     environment:
       - PORT=8020
     env_file:

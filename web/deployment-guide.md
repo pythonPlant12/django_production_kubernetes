@@ -15,7 +15,7 @@ docker build -f Dockerfile \
 3. Push Container with 2 tags: latest and random
 
 ```
-docker push registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web --all-tags
+docker push registry.digitalocean.com/cfe-k8s-nikita/django-k8s-web:latest
 ```
 
 4. Update secrets (if needed)
