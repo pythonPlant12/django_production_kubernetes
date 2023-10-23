@@ -16,11 +16,11 @@ services:
       # What instructions 
       dockerfile: Dockerfile
     # Declare an image name we want to build (recommendation: name as the name of the project)
-    image: prueba_1
+    image: pruba_1:1.1
     environment:
       - PORT=8020
     env_file:
-      - web/.env
+      - web/.env.prod
     # By default containers are not accessible to outside world if we run it locally
     # unless you define a port mapping
     ports:

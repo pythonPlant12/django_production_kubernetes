@@ -5,6 +5,7 @@ metadata:
   labels:
     app: django-k8s-web-deployment
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: django-k8s-web-deployment
@@ -30,7 +31,7 @@ spec:
       # this imagePullSecrets is coming from the command:
       # "k get serviceaccounts default -o json" as name
       imagePullSecrets:
-        - name: cfe-k8s-nikita
+        - name: do-registry
 
 
 ---
